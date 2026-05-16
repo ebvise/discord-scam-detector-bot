@@ -1,0 +1,43 @@
+{
+  "moderation": {
+    "timeout_minutes": 15,
+    "log_channel_id": 1505220445434151102,
+    "monitored_channel_ids": [1505220483551858698]
+  },
+  "ocr": {
+    "lang": "en",
+    "confidence": 0.5,
+    "max_concurrent": 3
+  },
+  "rate_limit": {
+    "max_images": 3,
+    "window_secs": 30
+  },
+  "scam_patterns": [
+    "\\bbitcoin\\b",
+    "\\bbtc\\b",
+    "\\beth(?:ereum)?\\b",
+    "\\bcrypto(?:currency)?\\b",
+    "\\bwallet\\b",
+    "\\bsend\\s+\\d",
+    "\\bdouble\\s+your\\b",
+    "\\bguaranteed\\s+(return|profit)\\b",
+    "\\binvest\\s+now\\b",
+    "\\bwhatsapp\\b",
+    "\\btelegram\\b",
+    "\\b\\d{1,3}%\\s+(profit|return|roi)\\b",
+    "0x[0-9a-fA-F]{40}",
+    "\\b[13][a-km-zA-HJ-NP-Z1-9]{25,34}\\b",
+    "\\bfree\\b",
+    "\\bgiveaway\\b",
+    "\\bairdrop\\b",
+    "\\bclaim\\s+(your|now|free|reward)\\b",
+    "\\bclick\\s+(here|link)\\b",
+    "\\bprize\\b",
+    "\\bget\\s+paid\\b",
+    "\\beach\\s+day\\b",
+    "\\bpassive\\s+income\\b",
+    "\\bno\\s+risk\\b",
+    "\\b100%\\s+(profit|return|roi|free)\\b"
+  ]
+}

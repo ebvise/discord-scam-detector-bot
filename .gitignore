@@ -1,0 +1,20 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+
+# PaddleOCR cache
+.paddleocr/
+
+# UV
+.uv/
+
+# OS
+.DS_Store
+Thumbs.db
