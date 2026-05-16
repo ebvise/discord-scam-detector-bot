@@ -50,7 +50,7 @@ Edit `config.json` from the example and fill in your channel IDs and other setti
 ```
 
 - **`log_channel_id`** — the channel where the bot posts detection logs. Right-click a channel in Discord → *Copy Channel ID*.
-- **`monitored_channel_ids`** — list of channels to watch for scam images. Leave the list empty (`[]`) to watch all channels.
+- **`monitored_channel_ids`** — list of channels to watch for scam images.
 
 ## Running
 
@@ -80,3 +80,4 @@ All settings live in `config.json`:
 - Manage Messages (to delete)
 - Moderate Members (to timeout)
 - Send Messages
+- Disocrd Developer <- Intents
