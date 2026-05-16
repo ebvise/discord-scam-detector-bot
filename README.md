@@ -36,7 +36,21 @@ Create a `.env` file:
 DISCORD_TOKEN=your_bot_token_here
 ```
 
-Copy `config.json` from the example and fill in your settings (timeout duration, monitored channels, scam patterns, etc.).
+Edit `config.json` from the example and fill in your channel IDs and other settings:
+
+```json
+{
+  "moderation": {
+    ...
+    "log_channel_id": 123456789012345678,
+    "monitored_channel_ids": [123456789012345678, 987654321098765432]
+  },
+  ...
+}
+```
+
+- **`log_channel_id`** — the channel where the bot posts detection logs. Right-click a channel in Discord → *Copy Channel ID*.
+- **`monitored_channel_ids`** — list of channels to watch for scam images. Leave the list empty (`[]`) to watch all channels.
 
 ## Running
 
