@@ -96,7 +96,7 @@ def is_scam(text: str) -> tuple[bool, list[str]]:
 
 def _parse_predict_result(result) -> str:
     lines = []
-    for res in (result or []):
+    for res in result or []:
         if res is None:
             continue
         if not hasattr(res, "json"):
@@ -106,7 +106,9 @@ def _parse_predict_result(result) -> str:
         texts = data.get("rec_texts", [])
         scores = data.get("rec_scores", [])
         if not texts:
-            log.debug("OCR result missing rec_texts; keys present: %s", list(data.keys()))
+            log.debug(
+                "OCR result missing rec_texts; keys present: %s", list(data.keys())
+            )
         for text, score in zip(texts, scores):
             if score >= config.OCR_CONFIDENCE:
                 lines.append(text)
@@ -126,11 +128,16 @@ async def _fetch_image(url: str) -> bytes | None:
             except (ValueError, TypeError):
                 content_length = 0
             if content_length > MAX_IMAGE_BYTES:
-                log.warning("Skipping image: Content-Length %d exceeds 15 MB limit", content_length)
+                log.warning(
+                    "Skipping image: Content-Length %d exceeds 15 MB limit",
+                    content_length,
+                )
                 return None
             data = await resp.read()
             if len(data) > MAX_IMAGE_BYTES:
-                log.warning("Skipping image: downloaded %d bytes exceeds 15 MB limit", len(data))
+                log.warning(
+                    "Skipping image: downloaded %d bytes exceeds 15 MB limit", len(data)
+                )
                 return None
             return data
     except asyncio.TimeoutError:
@@ -181,11 +188,15 @@ async def on_message(message: discord.Message):
     if message.author.bot:
         return
 
-    if config.MONITORED_CHANNEL_IDS and message.channel.id not in config.MONITORED_CHANNEL_IDS:
+    if (
+        config.MONITORED_CHANNEL_IDS
+        and message.channel.id not in config.MONITORED_CHANNEL_IDS
+    ):
         return
 
     image_attachments = [
-        a for a in message.attachments
+        a
+        for a in message.attachments
         if a.content_type and a.content_type.startswith("image/")
     ]
 
@@ -198,7 +209,9 @@ async def on_message(message: discord.Message):
     if blocked:
         log.info(
             "Rate-limited %s (%d): attempted %d image(s) within window",
-            message.author, message.author.id, len(image_attachments),
+            message.author,
+            message.author.id,
+            len(image_attachments),
         )
         # Delete the triggering message and all prior uncleared messages in the window
         delete_targets = [(message.channel.id, message.id)] + prior_refs
@@ -212,14 +225,20 @@ async def on_message(message: discord.Message):
             except discord.NotFound:
                 pass
             except (discord.Forbidden, discord.HTTPException) as e:
-                log.warning("Could not delete message %d during rate-limit cleanup: %s", msg_id, e)
+                log.warning(
+                    "Could not delete message %d during rate-limit cleanup: %s",
+                    msg_id,
+                    e,
+                )
         try:
             await message.channel.send(
                 f"{message.author.mention} You're uploading images too quickly, please slow down.",
                 delete_after=10,
             )
         except discord.HTTPException as e:
-            log.warning("Could not send rate-limit notice in %s: %s", message.channel, e)
+            log.warning(
+                "Could not send rate-limit notice in %s: %s", message.channel, e
+            )
         return
 
     # Process all attachments concurrently; OCR concurrency is capped by _ocr_sem
@@ -272,7 +291,10 @@ async def on_message(message: discord.Message):
         except discord.HTTPException:
             pass
     else:
-        log.info("Scam image from exempt user %s. Deleted silently, no timeout", message.author)
+        log.info(
+            "Scam image from exempt user %s. Deleted silently, no timeout",
+            message.author,
+        )
 
     if config.LOG_CHANNEL_ID:
         log_channel = client.get_channel(config.LOG_CHANNEL_ID)
@@ -288,7 +310,9 @@ async def on_message(message: discord.Message):
                     f"OCR: ```{combined_text[:500]}```"
                 )
             except discord.HTTPException as exc:
-                log.warning("Failed to send to log channel %d: %s", config.LOG_CHANNEL_ID, exc)
+                log.warning(
+                    "Failed to send to log channel %d: %s", config.LOG_CHANNEL_ID, exc
+                )
 
 
 async def main():
